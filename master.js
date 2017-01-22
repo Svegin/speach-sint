@@ -8,7 +8,7 @@ const speakButton = document.querySelector('#speak');
 const stopButton = document.querySelector('#stop');
 
 msg.text = document.querySelector('[name="text"]').value;
-
+// function change voice on display
 function populateVoices() {
   voices = this.getVoices();
   voicesDropdown.innerHTML = voices
@@ -16,5 +16,18 @@ function populateVoices() {
   .join('');
 }
 
+function setVoice() {
+  msg.voice = voices.find(voice => voice.name === this.value);
+  toggle();
+}
+
+function toggle(startOver = true) {
+  speechSynthesis.cancel();
+  if (startOver) {
+    speechSynthesis.speak(msg);
+    }
+}
 
 speechSynthesis.addEventListener('voiceschanged', populateVoices);
+voicesDropdown.addEventListener('change', setVoice);
+option.forEach(option => option.addEventListener('change', setOption));
