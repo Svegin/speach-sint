@@ -12,6 +12,7 @@ msg.text = document.querySelector('[name="text"]').value;
 function populateVoices() {
   voices = this.getVoices();
   voicesDropdown.innerHTML = voices
+  // .filter(voice => voice.lang.includes('en'))
   .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`)
   .join('');
 }
@@ -28,6 +29,20 @@ function toggle(startOver = true) {
     }
 }
 
+function setOption() {
+  console.log(this.name, this.value);
+  msg[this.name] = this.value;
+  toggle();
+}
+
 speechSynthesis.addEventListener('voiceschanged', populateVoices);
 voicesDropdown.addEventListener('change', setVoice);
-option.forEach(option => option.addEventListener('change', setOption));
+options.forEach(option => option.addEventListener('change', setOption));
+speakButton.addEventListener('click', toggle);
+stopButton.addEventListener('click', () => toggle(false));
+//  or net varient
+// stopButton.addEventListener('click', toggle.bind(null, false));
+// or other varient
+// stopButton.addEventListener('click',function () {
+//    toggle(false);
+// });
